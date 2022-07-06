@@ -1,0 +1,31 @@
+from keycloak import KeycloakOpenID
+
+keycloak_open_id = KeycloakOpenID(
+    server_url="http://localhost:8080",
+    realm_name="Mordor",
+    client_id="awesome-app",
+    verify=False
+)
+
+config_well_known = keycloak_open_id.well_known()
+
+# print(config_well_known)
+
+public_key = keycloak_open_id.public_key()
+
+KEYCLOAK_PUBLIC_KEY = "-----BEGIN PUBLIC KEY-----\n" + keycloak_open_id.public_key() + "\n-----END PUBLIC KEY-----"
+
+print(KEYCLOAK_PUBLIC_KEY)
+
+JWT_TOKEN = "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2VzZzRWxVWjFYMzZRRVhfN1dodWNjT0VnX2hzQUg4NE5oWU5kSnJCWkJFIn0.eyJleHAiOjE2NTUxOTMxNTEsImlhdCI6MTY1NTE5Mjg1MSwiYXV0aF90aW1lIjoxNjU1MTkyODUxLCJqdGkiOiJkYjhkODY2NC1mYzJhLTQ5ZDEtYTMwMi00MTA5YjFhMDdlMzYiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvcmVhbG1zL01vcmRvciIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiJiYzhiNWJmMi1iNWY3LTRhNzYtOGE3Ni04YzVlYTkyYjBkY2EiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJhd2Vzb21lLWFwcCIsIm5vbmNlIjoiZjI2NjRiOTYtOGE3ZC00ZDNhLTlhOWItMDg5YTRlYmI0NzI5Iiwic2Vzc2lvbl9zdGF0ZSI6IjFiZjE0ZGZlLWRlNTQtNGZiNC1iYjYxLTBkZGYyNjBmOTg0NyIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiaHR0cDovL2xvY2FsaG9zdDozMDAwIiwiaHR0cHM6Ly93d3cua2V5Y2xvYWsub3JnIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJkZWZhdWx0LXJvbGVzLW1vcmRvciIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwic2lkIjoiMWJmMTRkZmUtZGU1NC00ZmI0LWJiNjEtMGRkZjI2MGY5ODQ3IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiVml0YWx5IFNpemlrb3YiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzaXppa292dmEiLCJnaXZlbl9uYW1lIjoiVml0YWx5IiwiZmFtaWx5X25hbWUiOiJTaXppa292In0.MWjjmzpzcnrX_RMB0xEBs4ZMHF37-ON6VPOVtiIsFN5xlH5t9FPllBrlOHJyS3px_CLj2rVSwbIt7rlCB43lA4cs5M63KNDV6o1LCnK-De-7fJyH3ZYGg0LXjKfyyy1f61CLnWH0iaUGm8gy0bxaQm0QG4ex9Exh1wo5foB6w7_ltiH0qQFTmEBobWF-WwWECWM1JaoQTPL0GYoljDrMAY1UXmCySOvTocdoOm-5R71w46ciLP8sBf2PcgjhyYd1M-CL_rU9-5NrIkFyxJQoSe04Cj3nAiWwTNdW-FRQqee1e2BEyEozbyC3h25WOdVy7UENELYorS2JIzytlltpzA"
+
+options = {}
+options = {
+#     "verify_signature": False,  # jose.exceptions.ExpiredSignatureError: Signature has expired. - OK
+    "verify_aud": False,  # jose.exceptions.JWTClaimsError: Invalid audience ???
+#     "verify_exp": False,
+}
+
+parsed_token = keycloak_open_id.decode_token(JWT_TOKEN, KEYCLOAK_PUBLIC_KEY, options=options)
+
+print(parsed_token)
