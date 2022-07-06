@@ -4,8 +4,8 @@ This repo contains some keycloak integrations
 
 - SvelteKit(JS) integtation
 - Django token middleware
-- Django web with mozilla-django-oidc
-- FastAPI web with busykoala/fastapi-oidc-auth
+- Django web via mozilla-django-oidc
+- FastAPI web via busykoala/fastapi-oidc-auth
 
 ## Setup keycloak
 
